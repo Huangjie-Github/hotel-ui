@@ -2,10 +2,13 @@
 	<div class="login">
 		<div class="login-fragment">
 			<el-card class="box-card">
-				<span class="login-title">管理员登录</span>
+				<span class="login-title">管理登录</span>
 				<el-input class="distance-input" placeholder="账号" v-model="username" clearable></el-input>
 				<el-input class="distance-input" placeholder="密码" v-model="password" show-password></el-input>
 				<el-button type="success" v-on:click="adminLogin()">登录</el-button>
+				<div style="margin: 5px 0;">
+					<el-link type="primary" style="font-size: 10px;font-family: '微软雅黑';"  @click="()=>{this.$router.push('/')}">用户登录</i></el-link>
+				</div>
 			</el-card>
 		</div>
 	</div>
@@ -47,9 +50,7 @@
 							confirmButtonText: '确定',
 						});
 					}
-				}).cache(err => {
-					console.log('error', res)
-				})
+				});
 			}
 		}
 	}

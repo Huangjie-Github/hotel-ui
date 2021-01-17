@@ -1,5 +1,9 @@
 <template>
 	<div class="room-info">
+		<div style="margin: 12px 3px; text-align: right;">
+			<el-link type="primary" href="/home" style="float: left;">返回首页</i></el-link>
+			<el-link type="primary" @click="initRoomInfo()"><i class="el-icon-refresh"></i></el-link>
+		</div>
 		<div class="room-image">
 			<el-image style="width: 500px; height: auto" :src="room.roomImage" fit="contain"></el-image>
 		</div>
@@ -49,24 +53,29 @@
 			}
 		},
 		created() {
-			let url = this.$store.state.IP + '/user/select/room/talk/' + this.$route.params.roomNumber;
-			this.$axios.get(url).then(res => {
-				if (res.data.code == 200) {
-					this.room = res.data.msg[0];
-					for (var i = 0; i < this.room.talkRoomBOList.length; i++) {
-						let date = new Date(this.room.talkRoomBOList[i].createDate);
-						let time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() +
-							":" + date.getMinutes() + ":" + date.getSeconds();
-						this.room.talkRoomBOList[i].createDate = time;
-						console.log(time)
-					}
-					console.log(this.room)
-				}
-			})
-		},
+			this.initRoomInfo()
+;		},
 		methods: {
-			destineEvent() {
-				
+			initRoomInfo() {
+				let url = this.$store.state.IP + '/user/select/room/talk/' + this.$route.params.roomNumber;
+				this.$axios.get(url).then(res => {
+					if (res.data.code == 200) {
+						this.room = res.data.msg[0];
+						const h = this.$createElement;
+						this.$notify({
+							title: '通知',
+							message: h('i', {
+								style: 'color: teal'
+							}, '房间信息获取成功')
+						});
+						for (var i = 0; i < this.room.talkRoomBOList.length; i++) {
+							let date = new Date(this.room.talkRoomBOList[i].createDate);
+							let time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() +
+								":" + date.getMinutes() + ":" + date.getSeconds();
+							this.room.talkRoomBOList[i].createDate = time;
+						}
+					}
+				})
 			},
 			createRoom(){
 				let url = this.$store.state.IP + '/user/create/orders';

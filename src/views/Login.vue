@@ -7,7 +7,8 @@
 				<el-input class="distance-input" placeholder="密码" v-model="userLogin.password" show-password></el-input>
 				<el-button type="success" v-on:click="login()">登录</el-button>
 				<div>
-					<span class="switchLoginOrRegister" @click="switchLoginOrRegister()">切换登录</span>
+					<span class="switchLoginOrRegister" @click="switchLoginOrRegister()">注册</span>
+					<el-link class="switchLoginOrRegister" type="primary" @click="()=>{this.$router.push('/admin/login')}" style="float: left;">管理登录</el-link>
 				</div>
 			</el-card>
 		</div>
@@ -25,7 +26,7 @@
 				</div>
 				<el-button type="success" v-on:click="register()">注册</el-button>
 				<div>
-					<span class="switchLoginOrRegister" @click="switchLoginOrRegister()">切换注册</span>
+					<span class="switchLoginOrRegister" @click="switchLoginOrRegister()">登录</span>
 				</div>
 			</el-card>
 		</div>
@@ -97,27 +98,20 @@
 			},
 			switchLoginOrRegister(){
 				this.isShowLoginFragment = this.isShowLoginFragment?false:true;
-				console.log(this.isShowLoginFragment)
 			}
 		}
 	}
 </script>
 <style>
 
-	.login .login-fragment {
-		position: relative;
+	.login .login-fragment , .login .register-fragment {
+		position: absolute;
 		left: 50%;
 		width: 300px;
-		top: 50px;
+		top: 10%;
 		
 	}
 	
-	.login .register-fragment{
-		position: relative;
-		left: 50%;
-		width: 300px;
-		top: 50px;
-	}
 
 	.login-fragment .login-title , .register-fragment .register-title {
 		display: block;

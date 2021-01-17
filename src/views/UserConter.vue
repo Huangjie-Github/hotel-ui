@@ -1,9 +1,9 @@
 <template>
 	<div class="user-center">
 		<div style="margin: 18px;">
-			<el-link type="primary"><i class="el-icon-d-arrow-left"></i></el-link>
-			
-			<!-- <el-button type="primary" icon="el-icon-d-arrow-left">搜索</el-button> -->
+			<el-link type="primary" @click="()=>{this.$router.push('/home')}"><i class="el-icon-s-home"></i></el-link>
+			<el-link type="primary" style="float: right;" @click="checkOutLogin()">退出登录</i></el-link>
+
 		</div>
 		<div class="user-info">
 			<el-input :value="userInfo.number" v-model="userInfo.number" disabled>
@@ -122,6 +122,17 @@
 			})
 		},
 		methods: {
+			checkOutLogin() {
+				localStorage.removeItem("userToken");
+				this.$router.replace("/")
+				const h = this.$createElement;
+				this.$notify({
+					title: '通知',
+					message: h('i', {
+						style: 'color: teal'
+					}, '退出登录成功')
+				});
+			},
 			cancleEvent() {
 				let urlMe = this.$store.state.IP + '/user/select/me';
 				this.$axios.get(urlMe, {
@@ -193,17 +204,17 @@
 					return;
 				}
 				let url = this.$store.state.IP + '/user/check/out/room';
-				this.$axios.post(url,this.checkOutRoom,{
-					headers:{
+				this.$axios.post(url, this.checkOutRoom, {
+					headers: {
 						ContentType: 'application/json',
 						'token': localStorage.getItem('userToken')
 					}
-				}).then(res=>{
-					if(res.data.code==200){
+				}).then(res => {
+					if (res.data.code == 200) {
 						this.dialogCheckRoom = false;
 						this.orders[this.index].payNumber = res.data.msg;
 						alert("退房成功")
-					}else{
+					} else {
 						alert(res.data.msg)
 					}
 				})

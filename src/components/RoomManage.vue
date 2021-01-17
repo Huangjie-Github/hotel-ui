@@ -5,9 +5,9 @@
 		</div>
 		<div class="fragment-room-items">
 			<el-row>
-				<el-col :span="8" v-for="(room, index) in rooms" :key="index">
+				<el-col  :span="8" v-for="(room, index) in rooms" :key="index">
 					<el-card>
-						<img :src="room.roomImage" class="image">
+						<img style="height: 300px;" :src="room.roomImage" class="image">
 						<div>
 							<span>房间号：{{room.houseNumber}}</span>
 							<div class="bottom clearfix">
@@ -25,7 +25,7 @@
 				<div class="dialog-content">
 					<div>
 						<el-image style="width: 100px; height: 100px" :src="room.roomImage" fit="contain"></el-image>
-						<el-upload class="upload-demo" drag action="http://localhost:8080/file/put" name="file" multiple :on-success="uploadSuccess">
+						<el-upload class="upload-demo" drag :action="fileUrl" name="file" multiple :on-success="uploadSuccess">
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 							<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -56,7 +56,7 @@
 				<div class="dialog-content">
 					<div>
 						<el-image style="width: 100px; height: 100px" :src="addRoomData.roomImage" fit="contain"></el-image>
-						<el-upload class="upload-demo" drag action="http://localhost:8080/file/put" name="file" multiple :on-success="addRoomUploadSuccess">
+						<el-upload class="upload-demo" drag :action="fileUrl" name="file" multiple :on-success="addRoomUploadSuccess">
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 							<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -85,6 +85,7 @@
 		name: 'RoomManage',
 		data() {
 			return {
+				fileUrl: '',
 				rooms: {},
 				room: {},
 				dialogVisible: false,
@@ -108,6 +109,7 @@
 			}
 		},
 		created() {
+			this.fileUrl = this.$store.state.IP+'file/put';
 			this.initRooms();
 		},
 		methods: {
@@ -134,6 +136,7 @@
 				this.room.roomImage = res;
 			},
 			addRoomUploadSuccess(res) {
+				console.log(res)
 				this.addRoomData.roomImage = res;
 			},
 			cancelEnevt() {

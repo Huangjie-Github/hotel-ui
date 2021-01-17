@@ -2,7 +2,9 @@
 	<div class="home">
 		<div class="header">
 			欢迎来到Baby酒店
-			<i class="el-icon-user-solid" @click="checkUserCenter()"></i>
+			
+			  <el-link class="to-user-center" type="primary" @click="()=>{this.$router.push('/user/center')}"><i class="el-icon-user-solid" @click="checkUserCenter()"></i></el-link>
+			
 		</div>
 		<div class="body">
 			<div class="search">
@@ -52,9 +54,15 @@
 			}
 			let url = this.$store.state.IP + '/user/select/room/talk';
 			this.$axios.get(url).then(res => {
-				console.log(res)
 				if (res.data.code == 200) {
 					this.rooms = res.data.msg
+					const h = this.$createElement;
+					this.$notify({
+						title: '通知',
+						message: h('i', {
+							style: 'color: teal'
+						}, '房间列表获取成功')
+					});
 				}
 			})
 		},
@@ -85,26 +93,21 @@
 		height: 0;
 		visibility: hidden;
 	}
-	.home .header .el-icon-user-solid{
+	.home .header .to-user-center{
+		margin: 10px;
 		float: right;
 		cursor: pointer;
 	}
 	.home .body {
 		margin: 12px 8px;
 	}
-
 	.home .body .search .el-input.is-disabled .el-input__icon {
 		cursor: pointer;
 	}
-
-	.home .body .rooms {
-		/* width: 300px; */
-	}
-
 	.home .body .rooms .room {
 		margin: 12px 0;
 		box-shadow: 6px 4px 8px #8d8d8d;
-		border: 1px solid red;
+		border: 1px solid #C7C7C7;
 		padding: 18px 18px;
 		border-radius: 5px;
 		font-family: "宋体";
